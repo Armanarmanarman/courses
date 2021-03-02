@@ -47,11 +47,11 @@ public class Courses {
 
     @Override
     public String toString() {
-        return "Courses{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", discipline=" + discipline +
-                '}';
+        return "Course " +
+                "with id " + id +
+                ", and the title '" + title + '\'' +
+                ", and description='" + description + '\'' +
+                ", on " + discipline + " discipline"
+                ;
     }
 }

@@ -14,6 +14,7 @@ public class Main {
         //courses
         coursesList.add(new Courses(1, "Java", "Object Oriented Programming", "Programming"));
         coursesList.add(new Courses(2, "Calculus 2", "Math au mau", "Math"));
+        coursesList.add(new Courses(3, "C++", "C++ is a general-purpose programming language created by Bjarne Stroustrup as an extension of the C programming language", "Programming"));
 
     }
     public static void getCoursesByTitle(String input){
