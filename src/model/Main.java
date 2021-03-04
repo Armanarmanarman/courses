@@ -1,5 +1,7 @@
 package model;
 
+import database.DBUtils;
+
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
@@ -106,7 +108,13 @@ public class Main {
             else if (answer == 2){
                 System.out.println("1: Add course");
                 System.out.println("2: Student's requests");
+                answer = scanner.nextInt();
+                if(answer==1){//add course to db
+                    DBUtils.insertIntoTable("courses", new String[]{"CALC", "some calculus math", "MATH1302"});
+                }
+                else if(answer==2){//show
 
+                }
 
             }
             else {
