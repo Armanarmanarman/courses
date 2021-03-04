@@ -2,16 +2,17 @@ package model;
 
 import database.DBUtils;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
 
 public class Main {
-    static ArrayList<Courses> coursesList = new ArrayList<>();
-    static ArrayList<Courses> coursesRequestList = new ArrayList<>();
+    static ArrayList<Courses> coursesList = new ArrayList<>();//   static ArrayList<Courses> coursesRequestList = new ArrayList<>();
 
-    static ArrayList<Student> studentsList = new ArrayList<>();
+ //   static ArrayList<Student> studentsList = new ArrayList<>();
+
     public static void insert(){
         //courses
         coursesList.add(new Courses(1, "Java", "Object Oriented Programming", "Programming"));
@@ -25,7 +26,7 @@ public class Main {
 
             if(courses.getTitle().equals(input)){
                 System.out.println(courses.toString());
-                int i = cnt++;
+                cnt++;
 
             }
             if(cnt == 0){
@@ -88,31 +89,51 @@ public class Main {
                     }}
 
                 //Requesting a course
-                else if (answer == 2){
-                    int id =1;
-                    System.out.println("Requesting a new course");
-                    System.out.println("Enter title of the course:");
-                    String title = scanner.next();
-
-                    System.out.println("Enter description of the course: ");
-                    String description = scanner.next();
-
-                    System.out.println("Enter which disciple is this course: ");
-                    String discipline = scanner.next();
-
-                    coursesRequestList.add(new Courses(id, title , description, discipline));
-                    id++;
-                }
+//                else if (answer == 2){
+//
+//                    System.out.println("Requesting a new course");
+//                    System.out.println("Enter title of the course:");
+//                    String title = scanner.next();
+//
+//                    System.out.println("Enter description of the course: ");
+//                    String description = scanner.next();
+//
+//                    System.out.println("Enter which disciple is this course: ");
+//                    String discipline = scanner.next();
+//
+//                    coursesRequestList.add(new Courses(RequestId, title , description, discipline));
+//                    RequestId++;
+//                }
             }
             //TEACHER
             else if (answer == 2){
                 System.out.println("1: Add course");
                 System.out.println("2: Student's requests");
                 answer = scanner.nextInt();
+
+
                 if(answer==1){//add course to db
-                    DBUtils.insertIntoTable("courses", new String[]{"CALC", "some calculus math", "MATH1302"});
+                    System.out.println("Enter course Title:");
+                    String title = "'" + getInput() + "'";
+                    System.out.println("Enter course Description:");
+
+                    String description = "'" + getInput() + "'";
+                    System.out.println("Enter the Discipline of the course:");
+                    String discipline = "'" + getInput() + "'";
+
+
+                    DBUtils.insertIntoTable("courses", new String[]{
+                            String.valueOf(Teacher.getCourseId()),
+                            title,
+                            description,
+                            discipline});
+                        Teacher.incCourseId();
+
+
+
                 }
                 else if(answer==2){//show
+
 
                 }
 
@@ -123,4 +144,10 @@ public class Main {
 
         }
     }
+
+    private static String getInput() {
+        Scanner scanner2 = new Scanner(System.in);
+        return scanner2.nextLine();
+    }
+
 }

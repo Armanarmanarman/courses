@@ -28,7 +28,6 @@ public class DBUtils {
 //    }
 //
     public static void insertIntoTable(String tableName, String[] rowValues) {
-
         try {
             final Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "posgres");
             final Statement statement = connection.createStatement();
