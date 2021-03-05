@@ -1,5 +1,6 @@
 package model;
 
+import database.DBCursorHolder;
 import database.DBUtils;
 
 import java.sql.SQLException;
@@ -81,10 +82,13 @@ public class Main {
                         if (answer == 1) {
                             System.out.println("Searching by title");
                             System.out.println("Please enter title");
+                            String title = "'" + getInput() + "'";
+                            DBCursorHolder.getResults(DBUtils.searchByTitle("courses",new String[]{ title}));
+
 //                        String s;
 //                        s = scanner.next();
 //
-//                        getCoursesByTitle(s);
+//                        getCoursesByTitle(s);                             D
 
                         }
                         //search by discipline

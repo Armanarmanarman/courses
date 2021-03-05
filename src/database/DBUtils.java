@@ -4,11 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 import java.sql.DriverManager;
 
@@ -22,6 +18,36 @@ public class DBUtils {
             final String columnsString = String.join(", ", rowValues);
             final String query = String.format("INSERT INTO %s VALUES ( %s )", tableName, columnsString);
             statement.execute(query);
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public static DBCursorHolder searchByTitle(String tableName, String[] rowValues) {
+        try {
+            final Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "posgres");
+            final Statement statement = connection.createStatement();
+            final String columnsString = String.join(", ", rowValues);
+            final String query = String.format("SELECT * FROM %s WHERE title = %s", tableName,
+                columnsString);
+            statement.execute(query);
+            final ResultSet resultSet = statement.executeQuery(query);
+            statement.close();
+
+            return new DBCursorHolder(resultSet, statement);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return new DBCursorHolder(null, null);
+        }
+
+    }
+    public static void deleteTable(final String tableName) {
+        try {
+            final Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "posgres");
+            final Statement statement = connection.createStatement();
+            final String query = String.format("DELETE FROM %s", tableName);
+            statement.execute(query);
+            final ResultSet resultSet = statement.executeQuery(query);
             statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -66,15 +92,5 @@ public class DBUtils {
 
 
 
-    public static void deleteTable(final String tableName) {
-        try {
-            final Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "posgres");
-            final Statement statement = connection.createStatement();
-            final String query = String.format("DELETE FROM %s", tableName);
-            statement.execute(query);
-            statement.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
+
 }
