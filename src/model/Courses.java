@@ -1,5 +1,6 @@
 
 package model;
+
 public class Courses {
     private int id;
     private String title;
@@ -12,7 +13,9 @@ public class Courses {
         this.description = description;
         this.discipline = discipline;
     }
-    public Courses(){}
+
+    public Courses() {
+    }
 
     public int getId() {
         return id;

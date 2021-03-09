@@ -1,6 +1,7 @@
 package model;
 
 import database.DBUtils;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -62,7 +63,7 @@ public class Main {
             System.out.println("2: Teacher");
             int answer;
             answer = scanner.nextInt();
-            try{
+            try {
                 if (answer == 1) {
                     System.out.println("1: Search courses");
                     System.out.println("2: Request a course");
@@ -81,7 +82,7 @@ public class Main {
                                 System.out.println("Searching by title");
                                 System.out.println("Please enter title");
                                 String title = "'" + getInput() + "'";//getting input from console
-                                DBUtils.getByTitle(new String[]{ title });//giving it to geByTitle method located in DBUtils
+                                DBUtils.getByTitle(new String[]{title});//giving it to geByTitle method located in DBUtils
                             }
                             //search by discipline
                             else if (answer == 2)//search by discipline
@@ -89,12 +90,10 @@ public class Main {
                                 System.out.println("Searching by discipline");
                                 System.out.println("Please choose discipline");
                                 String discipline = "'" + getInput() + "'";//getting input from console
-                                DBUtils.getByTitle(new String[]{ discipline });//giving input to getByTitle method
-                            }
-                            else if (answer == 3)//show all available courses
+                                DBUtils.getByTitle(new String[]{discipline});//giving input to getByTitle method
+                            } else if (answer == 3)//show all available courses
                                 DBUtils.showAll();//look for showAll method in DBUtils
-                        }
-                        catch (InputMismatchException e){
+                        } catch (InputMismatchException e) {
                             System.out.println("Exception " + e);
                         }
 
@@ -102,7 +101,7 @@ public class Main {
 
                     //Requesting a course
                     else if (answer == 2) //Request a course by adding course info to array
-                        {
+                    {
 
                         System.out.println("Requesting a new course");
                         System.out.println("Enter title of the course:");
@@ -128,6 +127,7 @@ public class Main {
                     try {
                         if (answer == 1)//add course to DB
                         {
+                            int id = DBUtils.getCurrentId() + 1;
                             System.out.println("Enter course Title:");
                             String title = "'" + getInput() + "'";//get input gets multiple string inputs
                             System.out.println("Enter course Description:");
@@ -137,11 +137,12 @@ public class Main {
                             String discipline = "'" + getInput() + "'";
 
                             DBUtils.insertIntoTable("courses", new String[]{//see description on DBUtils class
-                                    String.valueOf(Teacher.getCourseId()),
+                                    String.valueOf(id),
                                     title,
                                     description,
                                     discipline});
-                            incCourseId();
+
+
                         } else if (answer == 2)//show request array if there are any
                         {
                             int cnt = 0;
@@ -155,19 +156,19 @@ public class Main {
                         } else if (answer == 3)//delete all data from table
                         {
                             DBUtils.deleteTable("courses");
-                            Teacher.setZeroCourseId();//set course ud to zero
-                        }
-                        else {
+
+                        } else {
                             System.out.println("Enter numbers '1' or '2' or '3' ");
                         }
-                    }catch (InputMismatchException e){
+                    } catch (InputMismatchException e) {
                         System.out.println("Exception occured : " + e);
                     }
 
 
                 } else System.out.println("Please enter '1' or '2' ");
-            }catch(InputMismatchException ex){
-            System.out.println("Exception occurred :" + ex);}
+            } catch (InputMismatchException ex) {
+                System.out.println("Exception occurred :" + ex);
+            }
 
         }
     }

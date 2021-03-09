@@ -14,7 +14,6 @@ import java.sql.DriverManager;
 public class DBUtils {
 
 
-
     public static void showAll() {
         try {
             String query = "SELECT * FROM courses";
@@ -34,7 +33,8 @@ public class DBUtils {
 
             }
         } catch (SQLException e) {
-            System.out.println("Exception occured: " + e);;
+            System.out.println("Exception occured: " + e);
+            ;
         }
 
     }
@@ -60,6 +60,29 @@ public class DBUtils {
             }
 
         }
+    }
+    public static int getCurrentId() {
+        {
+            try {
+                final String query = String.format("SELECT * FROM courses");
+                Statement statement = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "posgres").createStatement();
+                ResultSet resultSet = statement.executeQuery(query);//executing query above
+                Courses courses = new Courses();
+                while (resultSet.next()) {
+
+                    courses.setId(resultSet.getInt(1));
+
+
+
+
+                }
+                return courses.getId();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+        }
+        return 0;
     }
 
     public static void getByDiscipline(String[] discipline) {
@@ -97,6 +120,7 @@ public class DBUtils {
             ex.printStackTrace();
         }
     }
+
     public static void insertIntoTable(String tableName, String[] rowValues) {
         try {
             final Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "posgres");//establishing connection with SQL DB
