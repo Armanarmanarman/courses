@@ -12,6 +12,7 @@ public class Courses {
         this.description = description;
         this.discipline = discipline;
     }
+    public Courses(){}
 
     public int getId() {
         return id;
@@ -48,10 +49,10 @@ public class Courses {
     @Override
     public String toString() {
         return "Course " +
-                "with id " + id +
-                ", and the title '" + title + '\'' +
-                ", and description='" + description + '\'' +
-                ", on " + discipline + " discipline"
+                "id: " + id +
+                ", title: '" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", '" + discipline + "' discipline"
                 ;
     }
 }
