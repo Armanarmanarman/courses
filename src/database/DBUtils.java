@@ -114,7 +114,7 @@ public class DBUtils {
             final Statement statement = connection.createStatement();
             final String query = String.format("DELETE FROM %s", tableName);
             statement.execute(query);
-            final ResultSet resultSet = statement.executeQuery(query);
+
             statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();

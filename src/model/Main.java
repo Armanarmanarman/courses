@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import static model.Teacher.incCourseId;
 
 
 public class Main {
@@ -90,7 +89,7 @@ public class Main {
                                 System.out.println("Searching by discipline");
                                 System.out.println("Please choose discipline");
                                 String discipline = "'" + getInput() + "'";//getting input from console
-                                DBUtils.getByTitle(new String[]{discipline});//giving input to getByTitle method
+                                DBUtils.getByDiscipline(new String[]{discipline});//giving input to getByTitle method
                             } else if (answer == 3)//show all available courses
                                 DBUtils.showAll();//look for showAll method in DBUtils
                         } catch (InputMismatchException e) {
