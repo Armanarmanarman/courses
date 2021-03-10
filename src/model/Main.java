@@ -9,50 +9,7 @@ import java.util.Scanner;
 
 
 public class Main {
-    static ArrayList<Courses> coursesRequestList = new ArrayList<>();//students course requests will be filled to this array
 
-
-// We need following lines only when we are using array to store data instead of DBMS
-//    import static model.Teacher.getRequestId;
-//    static ArrayList<Courses> coursesList = new ArrayList<>();
-//    public static void insert() {
-//        //courses
-//        coursesList.add(new Courses(1, "Java", "Object Oriented Programming", "Programming"));
-//        coursesList.add(new Courses(2, "Calculus 2", "Math au mau", "Math"));
-//        coursesList.add(new Courses(3, "C++", "C++ is a general-purpose programming language created by Bjarne Stroustrup as an extension of the C programming language", "Programming"));
-//
-//    }
-//
-//    public static void getCoursesByTitle(String input) {
-//        int cnt = 0;
-//        for (Courses courses : coursesList) {
-//
-//            if (courses.getTitle().equals(input)) {
-//                System.out.println(courses.toString());
-//                cnt++;
-//
-//            }
-//            if (cnt == 0) {
-//                System.out.println("No courses found with title " + input);
-//            }
-//
-//
-//        }
-//    }
-//
-//    public static void getCourseByDiscipline(String input) {
-//        int cnt = 0;
-//        for (Courses courses : coursesList) {
-//
-//            if (Objects.equals(courses.getDiscipline(), input)) {
-//                System.out.println(courses.toString());
-//                cnt++;
-//            }
-//            if (cnt == 0) {
-//                System.out.println("No courses found with discipline " + input);
-//            }
-//        }
-//    }
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -60,6 +17,7 @@ public class Main {
             System.out.println("You are teacher or student?");
             System.out.println("1: Student");
             System.out.println("2: Teacher");
+            System.out.println("0: End program");
             int answer;
             answer = scanner.nextInt();
             try {
@@ -91,7 +49,7 @@ public class Main {
                                 String discipline = "'" + getInput() + "'";//getting input from console
                                 DBUtils.getByDiscipline(new String[]{discipline});//giving input to getByTitle method
                             } else if (answer == 3)//show all available courses
-                                DBUtils.showAll();//look for showAll method in DBUtils
+                                DBUtils.showAll("courses");//look for showAll method in DBUtils
                         } catch (InputMismatchException e) {
                             System.out.println("Exception " + e);
                         }
@@ -103,17 +61,15 @@ public class Main {
                     {
 
                         System.out.println("Requesting a new course");
-                        System.out.println("Enter title of the course:");
-                        String title = scanner.next();
+                        int id = DBUtils.getCurrentId("requested_courses") + 1;
+                        System.out.println("Enter course Title:");
+                        String title = "'" + getInput() + "'";//get input gets multiple string inputs
+                        System.out.println("Enter course Description:");
 
-                        System.out.println("Enter description of the course: ");
-                        String description = scanner.next();
-
-                        System.out.println("Enter which disciple is this course: ");
-                        String discipline = scanner.next();
-
-                        coursesRequestList.add(new Courses(Teacher.getRequestId(), title, description, discipline));
-                        Teacher.incRequestId();
+                        String description = "'" + getInput() + "'"; // ' <= we need to wrap input in this quote so sql can read it
+                        System.out.println("Enter the Discipline of the course:");
+                        String discipline = "'" + getInput() + "'";
+                        DBUtils.insertIntoTable("requested_courses", new String[]{String.valueOf(id), title, description,discipline});
                     }
                 }
                 //TEACHER
@@ -121,12 +77,13 @@ public class Main {
                     System.out.println("1: Add course");
                     System.out.println("2: Student's requests");
                     System.out.println("3: Delete all courses");
+                    System.out.println("4: Delete all requested courses");
                     answer = scanner.nextInt();
 
                     try {
                         if (answer == 1)//add course to DB
                         {
-                            int id = DBUtils.getCurrentId() + 1;
+                            int id = DBUtils.getCurrentId("courses") + 1;
                             System.out.println("Enter course Title:");
                             String title = "'" + getInput() + "'";//get input gets multiple string inputs
                             System.out.println("Enter course Description:");
@@ -144,19 +101,15 @@ public class Main {
 
                         } else if (answer == 2)//show request array if there are any
                         {
-                            int cnt = 0;
-                            for (Courses i : coursesRequestList) {//loop through array
-                                System.out.println(i);
-                                cnt++;
-                            }
-                            if (cnt == 0) {//if integer cnt is not incremented it means there are no requests
-                                System.out.println("No requests found!");
-                            }
+                            DBUtils.showAll("requested_courses");
                         } else if (answer == 3)//delete all data from table
                         {
                             DBUtils.deleteTable("courses");
 
-                        } else {
+                        } else if(answer == 4){//delete all requested courses
+                            DBUtils.deleteTable("requested_courses");
+                        }
+                        else {
                             System.out.println("Enter numbers '1' or '2' or '3' ");
                         }
                     } catch (InputMismatchException e) {
@@ -164,7 +117,10 @@ public class Main {
                     }
 
 
-                } else System.out.println("Please enter '1' or '2' ");
+                } else if(answer == 0){
+                    System.exit(0);
+                }
+                else System.out.println("Please enter proper number");
             } catch (InputMismatchException ex) {
                 System.out.println("Exception occurred :" + ex);
             }

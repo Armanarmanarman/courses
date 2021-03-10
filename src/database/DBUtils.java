@@ -14,9 +14,15 @@ import java.sql.DriverManager;
 public class DBUtils {
 
 
-    public static void showAll() {
+
+
+
+
+
+
+    public static void showAll(String tablename) {
         try {
-            String query = "SELECT * FROM courses";
+            String query =String.format("SELECT * FROM %s", tablename);
             //establishing connection with SQL DB
             Statement statement = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "posgres").createStatement();
 
@@ -61,10 +67,10 @@ public class DBUtils {
 
         }
     }
-    public static int getCurrentId() {
+    public static int getCurrentId(String tablename) {
         {
             try {
-                final String query = String.format("SELECT * FROM courses");
+                final String query = String.format("SELECT * FROM %s", tablename);
                 Statement statement = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "posgres").createStatement();
                 ResultSet resultSet = statement.executeQuery(query);//executing query above
                 Courses courses = new Courses();
