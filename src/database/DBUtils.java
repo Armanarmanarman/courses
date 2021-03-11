@@ -14,19 +14,13 @@ import java.sql.DriverManager;
 public class DBUtils {
 
 
-
-
-
-
-
-
-    public static void showAll(String tablename) {
+    public static void showAll(String tablename) {//show all shows all the data from given table
         try {
-            String query =String.format("SELECT * FROM %s", tablename);
+            String query = String.format("SELECT * FROM %s", tablename);//we use String.format to give the query different tablenames so we can use this method for different tables
             //establishing connection with SQL DB
             Statement statement = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "posgres").createStatement();
 
-            ResultSet resultSet = statement.executeQuery(query);
+            ResultSet resultSet = statement.executeQuery(query);//saving Result set
             while (resultSet.next())//iterate through results
             {
                 Courses courses = new Courses();
@@ -67,6 +61,7 @@ public class DBUtils {
 
         }
     }
+
     public static int getCurrentId(String tablename) {
         {
             try {
@@ -77,8 +72,6 @@ public class DBUtils {
                 while (resultSet.next()) {
 
                     courses.setId(resultSet.getInt(1));
-
-
 
 
                 }
@@ -107,8 +100,8 @@ public class DBUtils {
                     System.out.println(courses);
 
                 }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
 
         }
@@ -131,7 +124,7 @@ public class DBUtils {
         try {
             final Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "posgres");//establishing connection with SQL DB
             final Statement statement = connection.createStatement();
-            final String columnsString = String.join(", ", rowValues);//joining input values through ','
+            final String columnsString = String.join(", ", rowValues);//joining input values through ',' so postgres can understand it
             final String query = String.format("INSERT INTO %s VALUES ( %s )", tableName, columnsString);
             statement.execute(query);
             statement.close();

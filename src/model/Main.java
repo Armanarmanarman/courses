@@ -2,10 +2,8 @@ package model;
 
 import database.DBUtils;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 
 
 public class Main {
@@ -69,7 +67,7 @@ public class Main {
                         String description = "'" + getInput() + "'"; // ' <= we need to wrap input in this quote so sql can read it
                         System.out.println("Enter the Discipline of the course:");
                         String discipline = "'" + getInput() + "'";
-                        DBUtils.insertIntoTable("requested_courses", new String[]{String.valueOf(id), title, description,discipline});
+                        DBUtils.insertIntoTable("requested_courses", new String[]{String.valueOf(id), title, description, discipline});
                     }
                 }
                 //TEACHER
@@ -106,10 +104,9 @@ public class Main {
                         {
                             DBUtils.deleteTable("courses");
 
-                        } else if(answer == 4){//delete all requested courses
+                        } else if (answer == 4) {//delete all requested courses
                             DBUtils.deleteTable("requested_courses");
-                        }
-                        else {
+                        } else {
                             System.out.println("Enter numbers '1' or '2' or '3' ");
                         }
                     } catch (InputMismatchException e) {
@@ -117,10 +114,9 @@ public class Main {
                     }
 
 
-                } else if(answer == 0){
+                } else if (answer == 0) {
                     System.exit(0);
-                }
-                else System.out.println("Please enter proper number");
+                } else System.out.println("Please enter proper number");
             } catch (InputMismatchException ex) {
                 System.out.println("Exception occurred :" + ex);
             }
